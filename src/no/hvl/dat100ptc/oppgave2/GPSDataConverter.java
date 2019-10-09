@@ -16,26 +16,17 @@ public class GPSDataConverter {
 		
 		int secs;
 		int hr, min, sec;
+		String timeString = timestr.substring(timestr.indexOf('T')+1, timestr.indexOf('Z', timestr.indexOf('T')));
+		int last = timeString.indexOf(':');
+		hr = Integer.parseInt(timeString.substring(0, last));
+		min = Integer.parseInt(timeString.substring(last+1, (last=timeString.indexOf(':'))));
+		sec = Integer.parseInt(timeString.substring(last+1, (last=timeString.indexOf('.'))));
 		
-		// TODO
-		// OPPGAVE - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// OPPGAVE - SLUTT
-		
+		return 60*60*hr+60*min+sec;
 	}
 
 	public static GPSPoint convert(String timeStr, String latitudeStr, String longitudeStr, String elevationStr) {
-
-		GPSPoint gpspoint;
-
-		// TODO - START ;
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// OPPGAVE - SLUTT ;
-	    
+		return new GPSPoint(toSeconds(timeStr), Double.parseDouble(latitudeStr), Double.parseDouble(longitudeStr), Double.parseDouble(elevationStr));
 	}
 	
 }
