@@ -45,7 +45,13 @@ public class GPSUtils {
 		for(int i = 0; i < gpspoints.length; i++)
 			longs[i] = gpspoints[i].getLongitude();
 		return longs;
-
+	}
+	
+	public static double[] getElevations(GPSPoint[] gpspoints) {
+		double[] elevs = new double[gpspoints.length];
+		for(int i = 0; i < gpspoints.length; i++)
+			elevs[i] = gpspoints[i].getElevation();
+		return elevs;
 	}
 
 	private static int R = 6371000; // jordens radius

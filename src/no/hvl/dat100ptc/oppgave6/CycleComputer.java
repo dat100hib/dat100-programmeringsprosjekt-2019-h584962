@@ -26,9 +26,8 @@ public class CycleComputer extends EasyGraphics {
 	
 	private int N = 0;
 
-	private double minlon, minlat, maxlon, maxlat;
+	private double minlon, minlat, maxlon, maxlat, minheight, maxheight;
 
-	private double xstep, ystep;
 
 	public CycleComputer() {
 
@@ -52,33 +51,84 @@ public class CycleComputer extends EasyGraphics {
 
 		maxlon = GPSUtils.findMax(GPSUtils.getLongitudes(gpspoints));
 		maxlat = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
-
-		xstep = xstep();
-		ystep = ystep();
-
+		
+		minheight = 0;
+		maxheight = GPSUtils.findMax(GPSUtils.getElevations(gpspoints));
+		
 		makeWindow("Cycle Computer", 
 				2 * MARGIN + ROUTEMAPXSIZE,
 				2 * MARGIN + ROUTEMAPYSIZE + HEIGHTSIZE + SPACE);
-
+		
+		
+		//fillRectangle(MARGIN, MARGIN+HEIGHTSIZE+SPACE, 800, 400);
+		
 		bikeRoute();
 
 	}
 
 	
 	public void bikeRoute() {
-
-		throw new UnsupportedOperationException(TODO.method());
-
+		
+		//Speed
+		
+		System.out.println("Angi tidsskalering i tegnevinduet ...");
+		int timescaling = Integer.parseInt(getText("Tidsskalering"));
+		
+		setColor(0, 255, 0);
+		double average = gpscomp.averageSpeed();
+		fillRectangle(MARGIN, HEIGHTSIZE+MARGIN-(int)average, gpspoints.length-1, 2);
+		//Height
+		
+		// ybase indicates the position on the y-axis where the columns should start
+		
+		
+		//Route
+		int height = MARGIN + ROUTEMAPYSIZE + HEIGHTSIZE + SPACE;
+		int blueid = 0;
+		setSpeed(1);
+		for(int i = 0; i < gpspoints.length; i++)
+		{
+			setColor(0, 0, 255);
+			int x = (int)x(gpspoints[i]);
+			int y = (int)y(gpspoints[i]);
+			if (i == 0)
+				blueid = fillCircle(MARGIN+x,height-y,4);
+			if (i < gpspoints.length-1)
+			{
+				int nx = (int)x(gpspoints[i+1]);
+				int ny = (int)y(gpspoints[i+1]);
+				moveCircle(blueid, MARGIN+nx, height-ny);
+				pause((int)(((gpspoints[i+1].getTime()-gpspoints[i].getTime())*1000d)/timescaling));
+			}
+			if (i > 0) {
+				int speed =(int) GPSUtils.speed(gpspoints[i], gpspoints[i-1]);
+				fillRectangle(MARGIN+i, (int)Math.max(0,HEIGHTSIZE+MARGIN-speed), 1, (int)speed);
+				drawLine(MARGIN+x, height-y, MARGIN+(int)x(gpspoints[i-1]), height-(int)y(gpspoints[i-1]));
+				
+			}
+			fillRectangle(MARGIN+i+gpspoints.length+SPACE, MARGIN+HEIGHTSIZE-(int)heighty(gpspoints[i].getElevation()), 1, (int)heighty(gpspoints[i].getElevation()));
+			setColor(0, 255, 0);
+			fillCircle(MARGIN+x, height-y, 3);
+		}
 	}
 
-	public double xstep() {
-
-		throw new UnsupportedOperationException(TODO.method());
+	public double x(GPSPoint gpspoint) {
+		double diff = Math.abs(maxlon - minlon);
+		double x = ((maxlon-gpspoint.getLongitude())/diff)*ROUTEMAPXSIZE;
+		return x;
 	}
 
-	public double ystep() {
-
-		throw new UnsupportedOperationException(TODO.method());
+	public double y(GPSPoint gpspoint) {
+		double diff = Math.abs(maxlat - minlat);
+		double y = ((maxlat-gpspoint.getLatitude())/diff)*ROUTEMAPYSIZE;
+		return y;
 	}
+	
+	public double heighty(double elevation) {
+		double diff = Math.abs(maxheight-minheight);
+		double y = ((maxheight-elevation)/diff)*HEIGHTSIZE;
+		return y;
+	}
+
 
 }

@@ -36,6 +36,20 @@ public class GPSComputer {
 		return distance;
 
 	}
+	
+	public double stigningsprosent(GPSPoint gpspoint1, GPSPoint gpspoint2) {
+		double deltah = gpspoint1.getElevation()-gpspoint2.getElevation();
+		double deltax = GPSUtils.distance(gpspoint1, gpspoint2);
+		double hyp = Math.sqrt(Math.pow(deltah, 2) + Math.pow(deltax, 2));
+		return Math.asin(deltah/hyp)*180/Math.PI;
+	}
+	
+	public double[] climbs() {
+		double[] returnme = new double[gpspoints.length-1];
+		for(int i = 1; i < gpspoints.length; i++)
+			returnme[i-1] = stigningsprosent(gpspoints[i-1], gpspoints[i]);
+		return returnme;
+	}
 
 	public double totalElevation() {
 

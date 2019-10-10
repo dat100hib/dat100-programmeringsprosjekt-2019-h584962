@@ -6,6 +6,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/easygraphics.jar"/>
+	<classpathentry kind="lib" path="libs/easygraphics.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://dbsys.info/programmering/easygraphics/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
