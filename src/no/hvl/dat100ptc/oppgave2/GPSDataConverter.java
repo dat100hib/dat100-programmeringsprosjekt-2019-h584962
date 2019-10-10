@@ -14,13 +14,19 @@ public class GPSDataConverter {
 
 	public static int toSeconds(String timestr) {
 		
-		int secs;
 		int hr, min, sec;
-		String timeString = timestr.substring(timestr.indexOf('T')+1, timestr.indexOf('Z', timestr.indexOf('T')));
+		int start, stop;
+		start = timestr.indexOf('T')+1;
+		stop = timestr.indexOf('Z', timestr.indexOf('T'));
+		if (stop == -1)
+			stop = timestr.length();
+		String timeString = timestr.substring(start, stop);
 		int last = timeString.indexOf(':');
 		hr = Integer.parseInt(timeString.substring(0, last));
-		min = Integer.parseInt(timeString.substring(last+1, (last=timeString.indexOf(':'))));
-		sec = Integer.parseInt(timeString.substring(last+1, (last=timeString.indexOf('.'))));
+		int last2= timeString.indexOf(':', last+1);
+		min = Integer.parseInt(timeString.substring(last+1, last2));
+		int last3 = timeString.indexOf('.', last2+1);
+		sec = Integer.parseInt(timeString.substring(last2+1, last3));
 		
 		return 60*60*hr+60*min+sec;
 	}

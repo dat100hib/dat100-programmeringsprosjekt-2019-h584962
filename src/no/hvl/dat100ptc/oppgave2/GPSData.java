@@ -7,9 +7,11 @@ public class GPSData {
 
 	private GPSPoint[] gpspoints;
 	protected int antall = 0;
+	private int max;
 
 	public GPSData(int n) {
 		 gpspoints = new GPSPoint[n];
+		 max = n;
 		 antall = 0;
 	}
 
@@ -18,7 +20,7 @@ public class GPSData {
 	}
 	
 	protected boolean insertGPS(GPSPoint gpspoint) {
-		if (antall >= gpspoints.length)  {
+		if (antall < max)  {
 			gpspoints[antall++] = gpspoint;
 			return true;
 		} else
