@@ -56,7 +56,7 @@ public class CycleComputer extends EasyGraphics {
 		maxheight = GPSUtils.findMax(GPSUtils.getElevations(gpspoints));
 		
 		makeWindow("Cycle Computer", 
-				2 * MARGIN + ROUTEMAPXSIZE,
+				2 * MARGIN + ROUTEMAPXSIZE + 400,
 				2 * MARGIN + ROUTEMAPYSIZE + HEIGHTSIZE + SPACE);
 		
 		

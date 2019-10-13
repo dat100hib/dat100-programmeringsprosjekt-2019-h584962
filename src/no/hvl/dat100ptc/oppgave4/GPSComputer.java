@@ -158,7 +158,7 @@ public class GPSComputer {
 				+ "\nAverage speed\t:\t%s\tkm/t"
 				+ "\nEnergy\t\t:\t%s\tkcal",
 				GPSUtils.formatTime(totalTime()),
-				GPSUtils.formatDouble(totalDistance()),
+				GPSUtils.formatDouble(totalDistance()/1000d),
 				GPSUtils.formatDouble(totalElevation()),
 				GPSUtils.formatDouble(maxSpeed()),
 				GPSUtils.formatDouble(averageSpeed()),
